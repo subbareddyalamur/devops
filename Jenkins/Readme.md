@@ -31,10 +31,7 @@
 ### run jenkins
 
     java -jar jenkins.war
-    
-#### access jenkins GUI by opening http://localhost:8080/ on host machine.
-
-
+*********************************************************
 ### Install jenkins and running as a service
 
     # prerequisites to install gnupg or gnupg1 or gnupg2
@@ -49,3 +46,5 @@
     apt-get install systemctl
     
     systemctl start jenkins
+    
+#### access jenkins GUI by opening http://localhost:8080/ on host machine.
