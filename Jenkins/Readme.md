@@ -10,4 +10,8 @@
      docker exec -it jenkins /bin/bash
      
 ### install java
+    apt update
+    apt install default-jdk -y
+    6
+    44
     
