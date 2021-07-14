@@ -1,6 +1,6 @@
-##Install Jenkins on ubuntu container
+## Install Jenkins on ubuntu container
 
-   ####in Windows host
+   #### in Windows host
    
     docker run -dit --name jenkins -p 8000:8080 -v "${pwd}:/home/jenkins" ubuntu
     
