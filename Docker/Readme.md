@@ -79,7 +79,7 @@ You have removed Docker from the system completely.
 
 *************************************************
 
-    # Docker file example:
+    # Docker file example: The image is built on ubuntu with gcloud sdk and terraform installed.
     
     FROM ubuntu
     LABEL  maintainer="subbareddyalamur@gmail.com"
