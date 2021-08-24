@@ -1,0 +1,13 @@
+### Run nexus as a container using docker-compose
+
+    version: "2"
+    services:
+      nexus:
+        image: sonatype/nexus
+        volumes:
+          - "nexus-data:/sonatype-work"
+        ports:
+          - "8081:8081"
+
+    volumes:
+      nexus-data: {}
