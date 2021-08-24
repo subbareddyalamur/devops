@@ -48,3 +48,27 @@
     systemctl start jenkins
     
 #### access jenkins GUI by opening http://localhost:8080/ on host machine.
+
+### Create and customize jenkins image using dockerfile
+
+      FROM jenkins/jenkins
+      LABEL maintainer="hitjethva@gmail.com"
+      USER root
+      RUN mkdir /var/log/jenkins
+      RUN mkdir /var/cache/jenkins
+      RUN chown -R jenkins:jenkins /var/log/jenkins
+      RUN chown -R jenkins:jenkins /var/cache/jenkins
+      USER jenkins
+
+      ENV JAVA_OPTS="-Xmx8192m"
+      ENV JENKINS_OPTS="--handlerCountMax=300 --logfile=/var/log/jenkins/jenkins.log --webroot=/var/cache/jenkins/war"
+      
+### Run jenkins in a container using docker-compose
+
+      version: '3'
+      services:
+        jenkins1:
+          hostname: jenkins
+          image: jenkins
+          ports:
+            - 9081:8080
