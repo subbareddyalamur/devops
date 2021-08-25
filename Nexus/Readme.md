@@ -54,7 +54,7 @@
         
    #### Configur nexus to run as a service.
         
-        vi /etc/systemd/system/nexus.service
+        cat <<EOT>> /etc/systemd/system/nexus.service
         
         [Unit]
         Description=nexus service
@@ -70,6 +70,8 @@
         Restart=on-abort
         [Install]
         WantedBy=multi-user.target
+        
+        EOT
         
    #### Enable and start nexus
    
