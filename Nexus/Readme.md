@@ -12,7 +12,7 @@
     volumes:
       nexus-data: {}
 
-### Fresh install Nexus on ubuntu docker container
+## Fresh install Nexus on ubuntu docker container
 
    #### Bring up ubuntu container
    
