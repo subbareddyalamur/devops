@@ -104,9 +104,41 @@
     # SonarQube Logs:
     tail /opt/sonarqube/logs/sonar.log
        
-  ### Configure systemd service
+  ### Configure systemd service for sonarqube
   
-     
+    cd /opt/sonarqube/bin/linux-x86-64/
+    ./sonar.sh stop
+    
+    # create systemd service for sonarqube
+    cat <<EOT>> /etc/systemd/system/sonar.service
+    [Unit]
+    Description=SonarQube service
+    After=syslog.target network.target
+
+    [Service]
+    Type=forking
+
+    ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+    ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+
+    User=sonar
+    Group=sonar
+    Restart=always
+
+    LimitNOFILE=65536
+    LimitNPROC=4096
+
+    [Install]
+    WantedBy=multi-user.target
+    EOT
+    
+    # Start sonar
+    systemctl start sonar
+    
+    # Enable sonar to automatically start at boot time.
+    systemctl enable sonar
+    
+    systemctl status sonar
         
         
    
