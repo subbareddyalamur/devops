@@ -140,7 +140,8 @@
     
     systemctl status sonar
         
-        
+  ### Access sonarqube by navigating to http://localhost:9000 on browser.
+
    
         
       
