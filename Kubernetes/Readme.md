@@ -1,12 +1,14 @@
 ### Kubectl commands
 
-    # get list of pods
+# POD Commands
+
+### get list of pods
     kubectl get pods
 
-    # create pod with image
+### create pod with image
     kubectl run nginx --image=nginx
 
-    # describe pod
+### describe pod
     kubectl describe pod nginx
 
     root@controlplane:~# kubectl describe pod nginx        
@@ -59,8 +61,55 @@
     Normal  Created    4m16s  kubelet            Created container nginx
     Normal  Started    4m15s  kubelet            Started container nginx
 
-    # Delete pod
+### Delete pod
     kubectl delete pod webapp
 
-    # Create pod using yaml definition file.
+### Create pod using yaml definition file.
     kubectl create -f pod-definition.yaml
+
+### sample yaml definition
+
+    ################################
+    apiVersion: v1
+    kind: Pod
+    metadata:
+        name: nginx
+        labels:
+            app: nginx
+            tier: frontend
+    spec:
+        containers:
+        - name: nginx
+          image: nginx
+        - name: busybox
+          image: busybox
+    #################################
+
+# Replicasets
+
+### Sample relication controller yml file.
+
+    #############################################
+    apiVersion: v1
+    kind: ReplicationController
+    metadata:
+        name: myapp-rc
+        labels:
+            app: myapp
+            type: front-end
+    spec:
+        template:
+            # pod yaml definition from metadata
+            metadata:
+                name: myapp-pod
+                labels:
+                    app: myapp
+                    type: front-end
+            spec:
+                contiainers:
+                - name: nginx-continer
+                  image: nginx
+        replicas: 3
+    ############################################
+
+ 
