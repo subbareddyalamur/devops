@@ -87,7 +87,7 @@
 
 # Replicasets
 
-### Sample relication controller yml file.
+### Sample relication controller yaml file.
 
     #############################################
     apiVersion: v1
@@ -112,4 +112,58 @@
         replicas: 3
     ############################################
 
- 
+#### Difference between ReplicationController and ReplicaSets
+
+    Major difference in yaml file is "selector" definition. It helps the replicaset identify what PODs fall under it. Replicaset can also manage PODs that were not created as part of replicaset creation. 
+
+### Sample replicaset yaml file
+
+    #############################################
+    apiVersion: apps/v1
+    kind: ReplicationController
+    metadata:
+        name: myapp-rc
+        labels:
+            app: myapp
+            type: front-end
+    spec:
+        template:
+            # pod yaml definition from metadata
+            metadata:
+                name: myapp-pod
+                labels:
+                    app: myapp
+                    type: front-end
+            spec:
+                contiainers:
+                - name: nginx-continer
+                  image: nginx
+        replicas: 3
+        selector: 
+            matchLabels:
+                type: front-end
+    ############################################
+
+### Create replicaset 
+
+    kubectl create -f replicaset-definition.yml
+
+### Get replicaset
+
+    kubectl get replicaset
+
+### Scaling replicasets
+
+    Can be done by updating reclicas definition in replicaset definition file and running below command
+    kubectl replace -f replicaset-definition.yml
+
+    or 
+
+    kubectl scale --replicas=6 -f replicaset-definition.yml
+
+    or
+
+    kubectl scale --replicas=6 replicaset myapp-replicaset
+
+    Note: above 2 commands will not update replica definition in the file.
+    
