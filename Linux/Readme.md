@@ -869,24 +869,37 @@ To print the partition table, use "fdisk" command.
   **Commands**
 
    cd ~  : to go to user's home directory
+
    cd    : to go to user's home directory
+
    cd -  : to go to previous working directory
+
    cd .. : to go to one directory backwards
+
    file filename : gives the type of filename
+
    wc    : gives number of lines, words and characters in a file. options to use wc -l, wc -w, wc -c.
+
    sort  : sorts text in a file in ascending order. sort -r for descending order.
+
    tr    : translate text ex: lower case to upper case. tr [a-z] [A-Z]
+
    who   : [ec2-user@ip-172-31-38-11 ~]$ who
             ec2-user pts/0        2021-09-12 16:25 (160.238.74.205)
+
    who -H : [ec2-user@ip-172-31-38-11 ~]$ who -H
             NAME     LINE         TIME             COMMENT
             ec2-user pts/0        2021-09-12 16:25 (160.238.74.205)
+
    uptime : [ec2-user@ip-172-31-38-11 ~]$ uptime
             16:28:15 up 3 min,  1 user,  load average: 0.04, 0.03, 0.00
+
    users  : [ec2-user@ip-172-31-38-11 ~]$ users
             ec2-user
+
    whereis : [ec2-user@ip-172-31-38-11 ~]$ whereis sudo
              sudo: /usr/bin/sudo /etc/sudo.conf /usr/libexec/sudo /usr/share/man/man8/sudo.8.gz
+
    df -h   : [ec2-user@ip-172-31-38-11 ~]$ df -h
                 Filesystem      Size  Used Avail Use% Mounted on
                 devtmpfs        482M     0  482M   0% /dev
@@ -895,10 +908,12 @@ To print the partition table, use "fdisk" command.
                 tmpfs           492M     0  492M   0% /sys/fs/cgroup
                 /dev/xvda1      8.0G  1.5G  6.6G  19% /
                 tmpfs            99M     0   99M   0% /run/user/1000
+
    du -h   : [ec2-user@ip-172-31-38-11 home]$ du -Sh
                 4.0K    ./ec2-user/.ssh
                 12K     ./ec2-user
                 0       .
+                
    du -sh  : [ec2-user@ip-172-31-38-11 home]$ du -sh ~
                 16K     /home/ec2-user
    
