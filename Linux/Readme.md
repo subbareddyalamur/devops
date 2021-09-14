@@ -884,7 +884,7 @@ To print the partition table, use "fdisk" command.
 
    tr    : translate text ex: lower case to upper case. tr [a-z] [A-Z]
 
-      who   : [ec2-user@ip-172-31-38-11 ~]$ who 
+      who   : [ec2-user@ip-172-31-38-11 ~]$ who inf
                ec2-user pts/0        2021-09-12 16:25 (160.238.74.205)
 
       who -H : [ec2-user@ip-172-31-38-11 ~]$ who -H 
@@ -917,3 +917,75 @@ To print the partition table, use "fdisk" command.
       du -sh  : [ec2-user@ip-172-31-38-11 home]$ du -sh ~ 
                    16K     /home/ec2-user 
    
+      systemctl : [ec2-user@ip-172-31-38-11 ~]$ systemctl list-unit-files | grep sshd
+                  sshd-keygen.service                           static
+                  sshd.service                                  enabled
+                  sshd@.service                                 static
+                  sshd.socket                                   disabled
+            
+      # to check service status
+      systemctl status sshd or service sshd status
+      # to start/stop a service
+      systemctl start/stop sshd or service sshd stop/start
+
+      last     : show list of last logged in users
+                  [ec2-user@ip-172-31-38-11 ~]$ last
+                  ec2-user pts/0        160.238.74.244   Mon Sep 13 03:25   still logged in
+                  reboot   system boot  4.14.243-185.433 Mon Sep 13 03:13 - 03:39  (00:26)
+                  ec2-user pts/0        160.238.74.205   Sun Sep 12 16:25 - 16:45  (00:20)
+                  reboot   system boot  4.14.243-185.433 Sun Sep 12 16:24 - 03:39  (11:15)
+                  reboot   system boot  4.14.243-185.433 Sun Sep 12 09:35 - 03:39  (18:04)
+
+      ps       : Display currect processes running
+                  [ec2-user@ip-172-31-38-11 ~]$ ps
+                  PID TTY          TIME CMD
+                  3442 pts/1    00:00:00 bash
+                  3472 pts/1    00:00:00 ps
+
+      kill     : Kills a process
+                  [ec2-user@ip-172-31-38-11 ~]$ ps
+                  PID TTY          TIME CMD
+                  3442 pts/1    00:00:00 bash
+                  3494 pts/1    00:00:00 bash
+                  29702 pts/1    00:00:00 ps
+
+                  [ec2-user@ip-172-31-38-11 ~]$ kill -9 3494
+                  Killed
+                  [ec2-user@ip-172-31-38-11 ~]$ ps
+                  PID TTY          TIME CMD
+                  3442 pts/1    00:00:00 bash
+                  29745 pts/1    00:00:00 ps
+      top      : Display ongoing tasks with resource utilization.
+
+      zip      : Archive data
+                  zip -r filename.zip source_data
+   
+      unzip    : Extract archive
+                  unzip filename.zip
+
+      tar      : tar -cvg filename.tar source_data  # to create tar file
+                 tar -xvf filename.tar  # to untar a tar file.
+
+      useradd  : useradd <username>
+      passwd   : passwd <username>
+      chage    : chage <username>
+      groupadd : groupadd <groupname>
+      usermod  : usermod -aG <groupname> <username>  # will be added to group as secondary
+                 usermod -g <groupname> <username>   # will be added to group as primary
+      # to change primary group of a user
+      usermod -g <username> <username>
+      # to remove a user from group
+      gpasswd -d <username> <secondary groupname>
+      lid -g <groupname> : get users in a group
+
+      # Lock and unlock a user from logging into system.
+      usermod -L <username>
+      usermod -U <username>
+
+      # remove a user
+      userdel <username>
+      # remove a group
+      groupdel <groupname>
+
+      
+
