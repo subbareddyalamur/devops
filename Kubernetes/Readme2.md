@@ -1,286 +1,286 @@
-To get all details
+        To get all details
 
-root@ip-172-31-7-171:~# kubectl get all
+        root@ip-172-31-7-171:~# kubectl get all
 
-To check pods 
+        To check pods 
 
-$ kubectl get pods –all-namespaces
+        $ kubectl get pods –all-namespaces
 
-To check API Version
+        To check API Version
 
-kubectl api-versions
+        kubectl api-versions
 
-To list out Services on a particular namespace
+        To list out Services on a particular namespace
 
-kubectl get svc -n <namspace_name>
+        kubectl get svc -n <namspace_name>
 
-Note : if we don’t specify any namespace, it will list from default namespace.
+        Note : if we don’t specify any namespace, it will list from default namespace.
 
-To list of all pods from all namespaces
+        To list of all pods from all namespaces
 
-kubectl get pods –all-namespaces
+        kubectl get pods –all-namespaces
 
-To create a new pod
+        To create a new pod
 
-Ex : to create httpd
+        Ex : to create httpd
 
-# kubectl create deployment httpd –image=httpd
+        # kubectl create deployment httpd –image=httpd
 
-Ex: to create nginx
+        Ex: to create nginx
 
-# kubectl create deployment nginx –image=nginx
+        # kubectl create deployment nginx –image=nginx
 
-To get token to join worker nodes
+        To get token to join worker nodes
 
-# kubeadm token create –print-join-command
+        # kubeadm token create –print-join-command
 
-To create Logging namespace
+        To create Logging namespace
 
-# kubectl create namespace logging
+        # kubectl create namespace logging
 
-To have elastic.yaml file
+        To have elastic.yaml file
 
-# kubectl create -f kubernetes/elastic.yaml -n logging
+        # kubectl create -f kubernetes/elastic.yaml -n logging
 
-To make changes to deployment and Apply
+        To make changes to deployment and Apply
 
-# Kubectl apply <namespace> logging
+        # Kubectl apply <namespace> logging
 
-To check more details ( in wide ) of the get pods output
+        To check more details ( in wide ) of the get pods output
 
-# kubectl get pods –all-namespaces -o wide
+        # kubectl get pods –all-namespaces -o wide
 
-To check Kubernetes logs
+        To check Kubernetes logs
 
-# journalctl -u kubelet
+        # journalctl -u kubelet
 
-To get deployment object
+        To get deployment object
 
-# kubectl get deploy
+        # kubectl get deploy
 
-To check details of Pods
+        To check details of Pods
 
-Ex: to check the pods with name app.
+        Ex: to check the pods with name app.
 
-# kubectl get pods |grep app
+        # kubectl get pods |grep app
 
-To find Replication set
+        To find Replication set
 
-# kubectl get rs
+        # kubectl get rs
 
-To find service for a particular deployment
+        To find service for a particular deployment
 
-# kubectl get svc -n kubernetes-dashboard
+        # kubectl get svc -n kubernetes-dashboard
 
-To get the services created
+        To get the services created
 
-# kubectl get svc -n <service_name>
+        # kubectl get svc -n <service_name>
 
-(or)
+        (or)
 
-# kubectl get svc
+        # kubectl get svc
 
-To Edit the deployment
+        To Edit the deployment
 
-# kubectl edit deployment <deployment_name>
+        # kubectl edit deployment <deployment_name>
 
-To check the history  deployment
+        To check the history  deployment
 
-# kubectl rollout history deployment <Deployment_name>
+        # kubectl rollout history deployment <Deployment_name>
 
-To find helm Version
+        To find helm Version
 
-# helm version
+        # helm version
 
-To find Configuration view
+        To find Configuration view
 
-# kubectl config view
+        # kubectl config view
 
-To get Service Accounts list
+        To get Service Accounts list
 
-# Kubectl get serviceaccounts
+        # Kubectl get serviceaccounts
 
-To create new Service Account run below as one command
+        To create new Service Account run below as one command
 
-# kubectl apply -f – <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: build-robot
-EOF
+        # kubectl apply -f – <<EOF
+        apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+        name: build-robot
+        EOF
 
-To find all the labels
+        To find all the labels
 
-# kubectl get pods –show-labels
+        # kubectl get pods –show-labels
 
-To find details of a Service
+        To find details of a Service
 
-# kubectl describe svc <service_name>
+        # kubectl describe svc <service_name>
 
-To create ClusterIP
+        To create ClusterIP
 
-# kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type ClusterIP
+        # kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type ClusterIP
 
-To create LoadBalencer
+        To create LoadBalencer
 
-# kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type LoadBalencer
+        # kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type LoadBalencer
 
-To create NodePort
+        To create NodePort
 
-# kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type NodePort
+        # kubectl expose <object> <object_name> –name <name> –port <any_port> –target-port <object_port> –type NodePort
 
-To find man page of any kubernetes object 
+        To find man page of any kubernetes object 
 
-Below is an Example
+        Below is an Example
 
-  $ kubectl explain service
+        $ kubectl explain service
 
-  $ kubectl explain Pod
+        $ kubectl explain Pod
 
-To untaint all including master
+        To untaint all including master
 
-# kubectl taint nodes –all node-role.kubernetes.io/master
+        # kubectl taint nodes –all node-role.kubernetes.io/master
 
-To continuously access application in the replica set
+        To continuously access application in the replica set
 
-while true; do curl 10.111.27.27;sleep 1;echo “”;done
+        while true; do curl 10.111.27.27;sleep 1;echo “”;done
 
-To extract yaml file out of a pod
+        To extract yaml file out of a pod
 
-# kubectl get pod <pod_name> -o yaml
+        # kubectl get pod <pod_name> -o yaml
 
-# kubectl get pod <pod_name> -o yaml
+        # kubectl get pod <pod_name> -o yaml
 
-To check service account
+        To check service account
 
-# kubectl -n <namespace> get sa
+        # kubectl -n <namespace> get sa
 
-To get the cluster roles
+        To get the cluster roles
 
-# kubectl get cluesterroles
+        # kubectl get cluesterroles
 
-To check the configuration file using command
+        To check the configuration file using command
 
-# kubectl config view –minify
+        # kubectl config view –minify
 
-Create adhoc pod
+        Create adhoc pod
 
-# kubectl create deployment nginx –image=nginx
+        # kubectl create deployment nginx –image=nginx
 
-To run all commands in a particular namespace with out specifying namespace
+        To run all commands in a particular namespace with out specifying namespace
 
-# kubectl config set-context –current –namespace=devops-tools
+        # kubectl config set-context –current –namespace=devops-tools
 
-To get the list of Storage classes
+        To get the list of Storage classes
 
-# kubectl get storageclassses.storage.k8s.io
+        # kubectl get storageclassses.storage.k8s.io
 
 **Kubernetes Delete commands**
 
-To delete pods
+        To delete pods
 
-# kubectl delete pods <pod1> <pod2> <pod3> ….
+        # kubectl delete pods <pod1> <pod2> <pod3> ….
 
-To delete Deployment (this will delete all the resources (pods, services etc) created through this deployment
+        To delete Deployment (this will delete all the resources (pods, services etc) created through this deployment
 
-# kubectl delete deployment <deployment_name>
+        # kubectl delete deployment <deployment_name>
 
-To delete service
+        To delete service
 
-# kubectl delete service <service_name>
+        # kubectl delete service <service_name>
 
-Note : A statefulset pod can not be by deleting only the pod directly, instead we have to delete the Statefulset.
+        Note : A statefulset pod can not be by deleting only the pod directly, instead we have to delete the Statefulset.
 
 **Kubernetes Troubleshooting commands**
 
-To find what pods are on what nodes
+        To find what pods are on what nodes
 
-# kubectl get pods –all-namespaces -o wide
+        # kubectl get pods –all-namespaces -o wide
 
-(or)
+        (or)
 
-# kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName –all-namespaces
+        # kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:.spec.nodeName –all-namespaces
 
-To display Daemon Set
+        To display Daemon Set
 
-# kubectl get ds
+        # kubectl get ds
 
-To get logs of a pod
+        To get logs of a pod
 
-# kubectl logs <Pod_Name>
+        # kubectl logs <Pod_Name>
 
-Ex :
+        Ex :
 
-# kubectl logs nginx-6799fc88d8-qs42c –tail=20
+        # kubectl logs nginx-6799fc88d8-qs42c –tail=20
 
-To check apiserver is running or has crashed.
+        To check apiserver is running or has crashed.
 
-# docker ps | grep kube-apiserver
+        # docker ps | grep kube-apiserver
 
-To Rollout
+        To Rollout
 
-Example :
+        Example :
 
-root@osboxes:/home/osboxes/sreek8# kubectl rollout status deploy kubeserve
+        root@osboxes:/home/osboxes/sreek8# kubectl rollout status deploy kubeserve
 
-deployment “kubeserve” successfully rolled out
+        deployment “kubeserve” successfully rolled out
 
-root@osboxes:/home/osboxes/sreek8# kubectl rollout history deploy kubeserve
+        root@osboxes:/home/osboxes/sreek8# kubectl rollout history deploy kubeserve
 
-deployment.extensions/kubeserve 
+        deployment.extensions/kubeserve 
 
-REVISION  CHANGE-CAUSE
+        REVISION  CHANGE-CAUSE
 
-1         <none>
+        1         <none>
 
-To check restart policy
+        To check restart policy
 
-# kubectl get pods sreedeploy-7dc4f58d88-25f5f -o yaml |grep -i restart
+        # kubectl get pods sreedeploy-7dc4f58d88-25f5f -o yaml |grep -i restart
 
-To check what is running in cluster
+        To check what is running in cluster
 
-Ex :
+        Ex :
 
-# kubectl cluster-info
+        # kubectl cluster-info
 
-Kubernetes control plane is running at https://0.0.0.0:53875
+        Kubernetes control plane is running at https://0.0.0.0:53875
 
-CoreDNS is running at https://0.0.0.0:53875/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+        CoreDNS is running at https://0.0.0.0:53875/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
-Metrics-server is running at https://0.0.0.0:53875/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
+        Metrics-server is running at https://0.0.0.0:53875/api/v1/namespaces/kube-system/services/https:metrics-server:/proxy
 
-To check kubelet config file
+        To check kubelet config file
 
-# ps – |grep kubelet
+        # ps – |grep kubelet
 
-To check the kubernetes configuration
+        To check the kubernetes configuration
 
-# kubectl config view
+        # kubectl config view
 
-To check the Kubernetes dump logs
+        To check the Kubernetes dump logs
 
-# kubectl cluster-info dump
+        # kubectl cluster-info dump
 
-To check external IP’s of nodes in k8s
+        To check external IP’s of nodes in k8s
 
-# kubectl get nodes -o wide | awk {‘print $1″ ” $2 ” ” $6’} | column -t
+        # kubectl get nodes -o wide | awk {‘print $1″ ” $2 ” ” $6’} | column -t
 
-(or)
+        (or)
 
-# kubectl get nodes -o wide
+        # kubectl get nodes -o wide
 
-Verify that you can access the load balancer externally
+        Verify that you can access the load balancer externally
 
-curl -silent *****.eu-west-1.elb.amazonaws.com:80 | grep title
+        curl -silent *****.eu-west-1.elb.amazonaws.com:80 | grep title
 
 **Security commands**
 
-To getsecrets
+        To getsecrets
 
-# kubectl get secrets
+        # kubectl get secrets
 
 **AWS EKS Commands**
 
-To update kube configuration to aws eks
+        To update kube configuration to aws eks
 
-# aws eks –region us-east-2 update-kubeconfig –name <cluster_name>
+        # aws eks –region us-east-2 update-kubeconfig –name <cluster_name>
