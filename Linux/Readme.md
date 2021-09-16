@@ -987,5 +987,88 @@ To print the partition table, use "fdisk" command.
       # remove a group
       groupdel <groupname>
 
+      # Copy a file from local machine to remote server
+      scp <file/dir> <username>@<ip/hostname>:/tmp/
+
+      # /tmp is accessible by all users
+
+      free -h  : Memory info
+                  root@DESKTOP-VLO1QNM:~# free -h
+                                total        used        free      shared  buff/cache   available
+                  Mem:           12Gi       671Mi       9.6Gi       363Mi       2.1Gi        11Gi
+                  Swap:         4.0Gi          0B       4.0Gi
+
+      dmidecode   : show RAM hardware information
+
+      # Disable cron 
+      # create empty cron.allow file.
+      sudo touch /etc/cron.allow
+
+      # if need to give cron access to a particular user add that username in the cron.allow file.
+      # If there are many users in the system and need to remove access to a particular user, create cron.deny file and add the username in this file.
+      crontab -l -u <username> : To know cronjobs for of a user. only root has access
+      # To edit crontab
+      crontab -e
+      # To delete cron jobs
+      crontab -ir
+
+      File Desciptors
+      -------------------
+      0 ---> std i/p
+      1 ---> std o/p
+      2 ---> std err
+
+      cron job example - this cron job runs every minute every day and stores script's std o/p and std err into hello_output.log
+      -----------------------
+      */1 * * * * hello.sh > hello_output.log 2>&1
+
+      # Print command output on console and send output to a file at the same time.
+      ls | tee output.txt
+
+      script   : command to record next activity until "exit" command is given. History will be saved in a file called "typescript" by default. can be changed by giving file name during script command execution. script <filename>
+
+      history  : shows which commands are executed during the session upto 1000 recent commands by default.
+
+      uname    : To know which OS is in use.
+      uname -a : Print all information about OS, Kernel, version etc
       
+      # Get OS details - Distribution, release, kernel etc
+      cat /etc/*release
+
+      ports range : 0 - 65535
+      Reserved port range  : 0 - 1023
+
+      netstat -tunlap :  network statistics. t - tcp, u - udp, n - number, l - listening ports, a - all, p - program 
+      
+      watch    : Execute a command in regular intervals. watch -n 5 date - this will execute date command every 5 seconds.
+
+## AWS EC2 linux password authentication
+
+      # Login to EC2 instance with pem file for first time and switch to root.
+      # cd /etc/ssh
+      # vi sshd_config and search for pattern 'PasswordAuthentication' and change to yes from no.
+      # Restart sshd service.
+      systemctl stop sshd
+      systemctl start sshd  or service sshd restart
+
+## Shell Scripting
+
+      # To know which all shells are installed in the system
+      cat /etc/shells
+
+      # To kno which shell is in use currently
+      echo $SHELL
+
+      # Run shell script in debud mode.
+      sh -x <script.sh>
+
+      # To run a specific part of shell script in debud mode, keep the code inside "set -x <code> set +x".
+
+         echo "Hello World! Good Day"
+         set -x
+         date
+         set +x
+
+      
+
 
