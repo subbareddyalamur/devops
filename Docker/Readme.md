@@ -101,3 +101,93 @@ You have removed Docker from the system completely.
     docker build -t <repo:tag> .
     
     eg: docker build -t subbareddyalamur/terraform:1.0.2 .
+
+
+
+## Docker Commands
+
+- docker run nginx  : creates a container of the image specified (nginx in this case from docker hub) on docker host. This runs container in attached mode.
+- docker run -d nginx   : crates a container in detached mode.
+- docker pull nginx : just downloads the image from remote to the docker host.
+- docker ps  : lists the containers available on docker host.
+- docker stop <container id/name>   : stops a running container
+- docker start <container id/name>  : starts a running container
+- docker rm <container id/name>     : to remove/delete a stopped container
+- docker images     : to see a list of avaialable images on docker host
+- docker rmi <image id/tag>     : to remove/delete an image not using by any container.
+- docker exec <container id/name> <command (cat, ls ...)>   : to execute a command / extract information on / from running container.
+- docker inspect <container id/name>    : get all the details of a container.
+- docker logs <container id/name>   : get logs from the container
+- docker attach <container id/name> : get back to docker container prompt
+- docker history <image name>   : get layer level details of the image.
+
+## Docker Networking
+
+- Bridge : Default network a container get attached to when its created. A private internal network created by docker on the host. IP addr usually is 172.17 series
+- None : docker run ubuntu --network=none. Containers cannot be accessible to any external network or other containers. 
+- Host : docker run ubuntu --network=host. This means you don't need to map ports when containers are run. containers can be accessed externally using port used in container with host's IP. Cannot run multiple containers using same port number.
+
+- User defined networks: 
+
+        docker network create \
+            --driver bridge \
+            --subnet 182.18.0.0/16 custom-isolated-network
+
+## Docker Volumes:
+
+- Bind Mounting : Mount a specific folder from the docker host to container.
+- Volume Mounting : Mount a folder from /var/lib/docker/volumes directory to a docker container.
+
+Attaching a volume to docker container.
+
+     Old method: docker run -v /data/mqsql:/var/lib/mysql mysql
+     New method: docker run \
+                 --mount type=bind,source=/data/mysql,target=/var/lib/mysql mysql
+
+***Storage Drivers***
+
+     AUFS
+     ZFS
+     BTRFS
+     Device Mapper
+     Overlay
+     Overlay2
+
+ Selecting drivers depends on underlaying docker host's OS.
+
+     eg: for ubuntu default storage driver is AUFS where as Device Mapper for centos or fedora.
+
+## Space consumed by docker resources
+
+    - docker system df
+
+        [root@localhost home]# docker system df
+        TYPE            TOTAL     ACTIVE    SIZE      RECLAIMABLE
+        Images          3         1         574.2MB   133.3MB (23%)
+        Containers      1         1         169.6MB   0B (0%)
+        Local Volumes   1         1         450.5MB   0B (0%)
+        Build Cache     0         0         0B        0B
+
+    - docker system df -v
+
+        [root@localhost home]# docker system df -v
+        Images space usage:
+
+        REPOSITORY        TAG       IMAGE ID       CREATED       SIZE      SHARED SIZE   UNIQUE SIZE   CONTAINERS
+        nginx             latest    f8f4ffc8092c   11 days ago   133.3MB   0B            133.3MB       0
+        hello-world       latest    feb5d9fea6a5   2 weeks ago   13.26kB   0B            13.26kB       0
+        jenkins/jenkins   lts       619aabbe0502   6 weeks ago   440.9MB   0B            440.9MB       1
+
+        Containers space usage:
+
+        CONTAINER ID   IMAGE                 COMMAND                  LOCAL VOLUMES   SIZE      CREATED       STATUS        NAMES
+        3d1ff5431066   jenkins/jenkins:lts   "/sbin/tini -- /usr/…"   1               170MB     2 weeks ago   Up 46 hours   jenkins
+
+        Local Volumes space usage:
+
+        VOLUME NAME    LINKS     SIZE
+        jenkins_home   1         450.5MB
+
+        Build cache usage: 0B
+
+        CACHE ID   CACHE TYPE   SIZE      CREATED   LAST USED   USAGE     SHARED

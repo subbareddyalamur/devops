@@ -1,0 +1,14 @@
+---
+- name: Configure httpd web server
+  hosts: ec2
+  become: yes
+  remote_user: ec2-user
+  tasks:
+    - name: install httpd server
+      yum:
+        name: httpd
+        state: latest
+    - name: start httpd server
+      service:
+        name: httpd
+        state: started
