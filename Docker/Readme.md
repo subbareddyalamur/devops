@@ -142,30 +142,28 @@ You have removed Docker from the system completely.
 
   **NameSpaces**
 
-     # create network namespaces (red and blue) in a linux machine.
-     ip netns add red
-     ip netns add blue  
-     # list namespaces
-     ip netns
-     # To list interfaces on the namespaces.
-     ip netns exec red ip link  (or)
-     ip -n red link 
-
-   Peering between namespaces:
-     
-     # to create a peering
-     ip link add veth-red type veth peer name veth-blue
-     # attach the peering to each namespace
-     ip link set veth-red netns red
-     ip link set veth-blue netns blue
-     # set ip address to each namespace
-     ip -n red addr add 192.168.15.1 dev veth-red
-     ip -n blue addr add 192.168.15.2 dev veth-blue
-     # bring the networks up.
-     ip -n red link set veth-red up
-     ip -n blue link set veth-blue up
-     # try ping blue from red
-     ip netns exec red ping 192.168.15.2
+        # create network namespaces (red and blue) in a linux machine.
+        ip netns add red
+        ip netns add blue  
+        # list namespaces
+        ip netns
+        # To list interfaces on the namespaces.
+        ip netns exec red ip link  (or)
+        ip -n red link 
+        
+        # to create a peering
+        ip link add veth-red type veth peer name veth-blue
+        # attach the peering to each namespace
+        ip link set veth-red netns red
+        ip link set veth-blue netns blue
+        # set ip address to each namespace
+        ip -n red addr add 192.168.15.1 dev veth-red
+        ip -n blue addr add 192.168.15.2 dev veth-blue
+        # bring the networks up.
+        ip -n red link set veth-red up
+        ip -n blue link set veth-blue up
+        # try ping blue from red
+        ip netns exec red ping 192.168.15.2
 
 
 **Embedded DNS**
