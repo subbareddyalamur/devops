@@ -237,13 +237,13 @@ Attaching a volume to docker container.
 
     Swarm Manager and Worker nodes
 
-    - docker swarm init : will initialize swarm cluster on master/manager node and give token to join worker nodes to the swarm cluster.
+    - docker swarm init : will initialize swarm cluster on master/manager node and give token to join worker nodes to swarm cluster.
     - docker swarm init --force-new-cluster : to bring the dead cluster up.
   
-  If the host has multiple IP address specify --advertise-addr option to set the IP address to use.
-  - docker swarm init --advertise-addr <ip>
- 
-    - docker swarm join --token <token> : Run this command on each worker node to join the node to swarm cluster.
+     # If the host has multiple IP address specify --advertise-addr option to set the IP address to use.
+
+    - docker swarm init --advertise-addr <ip>
+     - docker swarm join --token <token> : Run this command on each worker node to join the node to swarm cluster.
     - docker swarm leave    : To remove a node from swarm cluster but the node name with status "down" will still appear in the cluster.
     - docker node rm <node-name/node-id>  : to completely remove the node from cluster.
     - docker node promote   :  To promote an existing worker node to a swam manager. This has to be run on master.
@@ -254,12 +254,12 @@ Attaching a volume to docker container.
 
   **RAFT - Distributed Consensus algorithm**
 
-     This decides who can be the leader among Swarm managers.
-     
-     It uses random timers for initializing a request. Eg: a random timer is kicked off on the 3 managers.
-     The first one to finish the timers sends out a request to other managers requesting permission to be the leader. The other managers on receiving the request respond with their vote and node assumes the leader role. Now that it is elected leader it sends out notification at regular intervals to other master nodes informing them that it is continuing to assume leader role. In case the other nodes do not receive a notification from the leader at some point in time which could either be due to the leader going down or loosing network connectivity, the nodes initiate a re-election process among themselves and a new leader is identified. 
-     
-     Every manager has a copy of RAFT database that stores the information about the entire cluster and its important that they are all in sync. 
+This decides who can be the leader among Swarm managers.
+
+It uses random timers for initializing a request. Eg: a random timer is kicked off on the 3 managers.
+The first one to finish the timers sends out a request to other managers requesting permission to be the leader. The other managers on receiving the request respond with their vote and node assumes the leader role. Now that it is elected leader it sends out notification at regular intervals to other master nodes informing them that it is continuing to assume leader role. In case the other nodes do not receive a notification from the leader at some point in time which could either be due to the leader going down or loosing network connectivity, the nodes initiate a re-election process among themselves and a new leader is identified. 
+
+Every manager has a copy of RAFT database that stores the information about the entire cluster and its important that they are all in sync. 
 
 ## Docker Service
 
