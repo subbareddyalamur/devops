@@ -114,12 +114,19 @@ You have removed Docker from the system completely.
 - docker start <container id/name>  : starts a running container
 - docker rm <container id/name>     : to remove/delete a stopped container
 - docker images     : to see a list of avaialable images on docker host
+- docker image save alpine:latest -o alpine.tar  : save image locally
+- docker image load -i alpine.tar  :  load image from local dir.
 - docker rmi <image id/tag>     : to remove/delete an image not using by any container.
 - docker exec <container id/name> <command (cat, ls ...)>   : to execute a command / extract information on / from running container.
 - docker inspect <container id/name>    : get all the details of a container.
 - docker logs <container id/name>   : get logs from the container
 - docker attach <container id/name> : get back to docker container prompt
 - docker history <image name>   : get layer level details of the image.
+
+**Import & Export operations**
+
+    docker export <container-name> > test-container.tar
+    docker image import test-container.tar newimage:latest
 
 ## Docker Networking
 
@@ -132,6 +139,34 @@ You have removed Docker from the system completely.
         docker network create \
             --driver bridge \
             --subnet 182.18.0.0/16 custom-isolated-network
+
+  **NameSpaces**
+
+     # create network namespaces (red and blue) in a linux machine.
+     ip netns add red
+     ip netns add blue  
+     # list namespaces
+     ip netns
+     # To list interfaces on the namespaces.
+     ip netns exec red ip link  (or)
+     ip -n red link 
+
+   Peering between namespaces:
+     
+     # to create a peering
+     ip link add veth-red type veth peer name veth-blue
+     # attach the peering to each namespace
+     ip link set veth-red netns red
+     ip link set veth-blue netns blue
+     # set ip address to each namespace
+     ip -n red addr add 192.168.15.1 dev veth-red
+     ip -n blue addr add 192.168.15.2 dev veth-blue
+     # bring the networks up.
+     ip -n red link set veth-red up
+     ip -n blue link set veth-blue up
+     # try ping blue from red
+     ip netns exec red ping 192.168.15.2
+
 
 **Embedded DNS**
 
@@ -264,33 +299,33 @@ Attaching a volume to docker container.
 
  Example docker stack file: docker-stack.yml
 
-        version: "3"
-        services:
-            redis:
-                image: redis
-                resources:
-                    limits:
-                        cpus: 0.01
-                        memory: 50M
-            db:
-                image: postgres:9.4
-                deploy:
-                    placement:
-                        constraints:
-                            - node.hostname == node1
-                            - node.role == manager
-            vote:
-                image: dockersamples/examplevotingapp_vote
-                ports:
-                    - 5000:80
-                deploy:
-                    replicas: 2
-            worker:
-                image: dockersamples/examplevotingapp_worker
-            result:
-                image: dockersamples/examplevotingapp_result
-                ports:
-                    - 5001:80
+    version: "3"
+    services:
+        redis:
+            image: redis
+            resources:
+                limits:
+                    cpus: 0.01
+                    memory: 50M
+        db:
+            image: postgres:9.4
+            deploy:
+                placement:
+                    constraints:
+                        - node.hostname == node1
+                        - node.role == manager
+        vote:
+            image: dockersamples/examplevotingapp_vote
+            ports:
+                - 5000:80
+            deploy:
+                replicas: 2
+        worker:
+            image: dockersamples/examplevotingapp_worker
+        result:
+            image: dockersamples/examplevotingapp_result
+            ports:
+                - 5001:80
 
  Deploing docker stack
 
@@ -316,7 +351,9 @@ Attaching a volume to docker container.
             "hosts": ["tcp://192.168.1.10:2376"],
             "tls": true,
             "tlscert": "/var/docker/server.pem",
-            "tlskey": "/var/docker/serverkey.pem"
+            "tlskey": "/var/docker/serverkey.pem",
+            "tlsverify": true,
+            "tlscacert": "/var/docker/cacert.pem"
         }
 
      dockerd --debug \
@@ -386,3 +423,33 @@ Attaching a volume to docker container.
      docker run -d --log-driver json-file nginx
      docker run -d --log-driver awslogs nginx
     
+
+## Docker File
+
+  **Copy Vs ADD**
+
+    ADD app.tar.gz /testdir : ADD will extract the app.tar.gz into container's /testdir
+    ADD http://app.tar.gz /testdir 
+
+    COPY just copies the file as is.
+
+  **CMD vs ENTRYPOINT**
+
+    with CMD we cannot pass in the arguments separately. with ENTRYPOINT we can pass arguments which gets appeneded to the ENTRYPOINT's command.
+
+## Resource Limits
+
+ **CPU**
+    
+    docker run --cpu-shares=512 nginx  : limit cpu resources for a container. - soft limit
+    docker run --cpuset-cpus=0-1 httpd  : assign CPUs to a comtainer
+    docker un --cpus=2.5 webapp  :  hard limit. restrict a container to use only 2.5 out of x cpus on the host.
+    docker container update --cpus=0.5 webapp  : update limits.
+
+**Memory**
+
+    docker run --memory=512m nginx  :  use only 512 MB of memory to nginx container on docker host. Hard Limit.
+    container gets killed if it uses more than allocated memory throwing out of memory exception.
+
+    docker run --memory=512m --memory-swarp=768m nginx  : swap space = 768-512 = 256 MB
+
