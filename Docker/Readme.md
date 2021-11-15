@@ -235,7 +235,7 @@ Attaching a volume to docker container.
 
 ## Docker Swarm
 
-    Swarm Manager and Worker nodes
+   Swarm Manager and Worker nodes
 
     - docker swarm init : will initialize swarm cluster on master/manager node and give token to join worker nodes to swarm cluster.
     - docker swarm init --force-new-cluster : to bring the dead cluster up.
@@ -243,13 +243,26 @@ Attaching a volume to docker container.
      # If the host has multiple IP address specify --advertise-addr option to set the IP address to use.
 
     - docker swarm init --advertise-addr <ip>
-     - docker swarm join --token <token> : Run this command on each worker node to join the node to swarm cluster.
+    - docker swarm join --token <token> : Run this command on each worker node to join the node to swarm cluster.
+    
+    # add 2377 port on Manager's firewall if workers cannot join the swarm.
+       sudo firewall-cmd --add-port=2377/tcp --permanent
+       sudo firewall-cmd --reload
+
     - docker swarm leave    : To remove a node from swarm cluster but the node name with status "down" will still appear in the cluster.
     - docker node rm <node-name/node-id>  : to completely remove the node from cluster.
     - docker node promote   :  To promote an existing worker node to a swam manager. This has to be run on master.
     - docker node update --availability drain <node>  : Make swam manager only perform management tasks and not serve as a worker node.
 
-    - docker swarm join-token manager  : to get the token for another master join the swam cluster.
+    - docker swarm join-token manager  : to get the token for another master to join the swam cluster.
+    - docker swarm join-token worker   : to get the token for worker node to join the swarm cluster.
+
+   Locking a swarm cluster with an encrypted key (Auto Lock)
+
+    - docker swarm init --autolock=true
+    - docker swarm update --autolock=true
+    To Rejoin
+    - docker swarm unlock
 
 
   **RAFT - Distributed Consensus algorithm**
